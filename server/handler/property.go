@@ -11,7 +11,7 @@ import (
 )
 
 type PropertyController struct {
-	Db *gorm.DB
+	Db     *gorm.DB
 	Broker *redis.MessageBroker
 }
 
@@ -37,7 +37,7 @@ func (p *PropertyController) GetByApplicationProfileAndLabel(c *gin.Context) {
 	s.Where("application = ? AND profile = ? AND label = ?", app, profile, label).Find(&props)
 
 	if len(props) == 0 {
-		c.JSON(http.StatusNotFound, "Could not find any property")
+		c.JSON(http.StatusNotFound, gin.H{"errorMessage": "Could not find any property"})
 		return
 	}
 
@@ -45,11 +45,11 @@ func (p *PropertyController) GetByApplicationProfileAndLabel(c *gin.Context) {
 }
 
 func (p *PropertyController) Create(c *gin.Context) {
-	prop := new (domain.Property)
+	prop := new(domain.Property)
 	err := c.BindJSON(&prop)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, "Could not map request body")
+		c.JSON(http.StatusBadRequest, gin.H{"errorMessage": "Could not map request body"})
 		return
 	}
 
@@ -57,7 +57,7 @@ func (p *PropertyController) Create(c *gin.Context) {
 	err = create.Error
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, "Could not save property into DB")
+		c.JSON(http.StatusInternalServerError, gin.H{"errorMessage": "Could not save property into DB"})
 		return
 	}
 
@@ -68,18 +68,18 @@ func (p *PropertyController) Create(c *gin.Context) {
 
 func (p *PropertyController) Modify(c *gin.Context) {
 	id := c.Param("id")
-	prop := new (domain.Property)
+	prop := new(domain.Property)
 	err := c.BindJSON(&prop)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, "Could not map request body")
+		c.JSON(http.StatusBadRequest, gin.H{"errorMessage": "Could not map request body"})
 		return
 	}
 
 	parseUint, err := strconv.ParseUint(id, 10, 64)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, "Could not parse property Id")
+		c.JSON(http.StatusInternalServerError, gin.H{"errorMessage": "Could not parse property Id"})
 		return
 	}
 
@@ -90,7 +90,7 @@ func (p *PropertyController) Modify(c *gin.Context) {
 	err = create.Error
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, "Could not update property into DB")
+		c.JSON(http.StatusInternalServerError, gin.H{"errorMessage": "Could not update property into DB"})
 		return
 	}
 
