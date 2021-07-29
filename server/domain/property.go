@@ -1,12 +1,12 @@
 package domain
 
 type Property struct {
-	Id 				ReadOnlyId 	`json:"id" gorm:"primaryKey"`
-	Application 	string		`json:"application" gorm:"index"`
-	Profile 		string		`json:"profile" gorm:"index"`
-	Label 			string		`json:"label" gorm:"index"`
-	Key 			string		`json:"key"`
-	Value 			string		`json:"value"`
+	Id          ReadOnlyId `json:"id" gorm:"primaryKey"`
+	Application string     `json:"application" gorm:"index"`
+	Profile     string     `json:"profile" gorm:"index"`
+	Label       string     `json:"label" gorm:"index"`
+	Key         string     `json:"key"`
+	Value       string     `json:"value"`
 }
 
 type ReadOnlyId uint64
