@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 	"live-config/server/handler"
 )
 
@@ -20,9 +21,5 @@ func initHttpServer() {
 	group.POST("/", c.Create)
 	group.PUT("/:id", c.Modify)
 
-	err := r.Run()
-
-	if err != nil {
-		panic(err)
-	}
+	log.Fatal(r.Run())
 }

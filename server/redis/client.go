@@ -6,8 +6,6 @@ import (
 	"live-config/logger"
 )
 
-const defaultTopicTemplate = "live-config_%s_%s_%s"
-
 var (
 	Redis *redis.Client
 	ctx = context.Background()

@@ -41,7 +41,13 @@ func (p *PropertyController) GetByApplicationProfileAndLabel(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, props)
+	var jsonResponse = map[string]interface{}{}
+
+	for _, prop := range props {
+		jsonResponse[prop.Key] = prop.Value
+	}
+
+	c.JSON(http.StatusOK, jsonResponse)
 }
 
 func (p *PropertyController) Create(c *gin.Context) {
